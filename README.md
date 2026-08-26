@@ -4,6 +4,8 @@ Originally created by Moriah Bender in September 2023, this project has since be
 
 A console-based sliding tile puzzle (8-puzzle style) written in C++. Play the standard 3x3 board or generate a custom-sized board up to 10x10, then race to slide the tiles back into numerical order.
 
+This is an ongoing project that I plan to expand from a console-based C++ game into a full-stack, real-time puzzle platform. I’ll be refactoring the current game logic into a reusable C++ engine, building a web-based frontend, adding player profiles and race history, and implementing real-time 1 v 1 races where both players compete on the same starting board.
+
 ## Features
 
 - Standard 3x3 board, or a custom width/height (1–10) of your choosing
