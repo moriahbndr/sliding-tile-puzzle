@@ -1,6 +1,6 @@
 # Sliding Tile Puzzle
 
-Originally created by Moriah Bender in September 2023, this project has since been revisited, refactored, and pushed to GitHub as an ongoing project.
+Originally created by Moriah Bender in September 2023, this project has since been revisited, refactored, and pushed to GitHub as an ongoing project. 
 
 A console-based sliding tile puzzle (8-puzzle style) written in C++. Play the standard 3x3 board or generate a custom-sized board up to 10x10, then race to slide the tiles back into numerical order.
 
