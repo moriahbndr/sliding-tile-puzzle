@@ -121,10 +121,10 @@ void playGame(Board& board) {
 		// moving board tiles
 		clearScreen();
 		switch (key) {
-			case '8': board.move(Direction::Up);    break;
-			case '2': board.move(Direction::Down);  break;
-			case '4': board.move(Direction::Left);  break;
-			case '6': board.move(Direction::Right); break;
+			case KEY_ARROW_UP:    board.move(Direction::Up);    break;
+			case KEY_ARROW_DOWN:  board.move(Direction::Down);  break;
+			case KEY_ARROW_LEFT:  board.move(Direction::Left);  break;
+			case KEY_ARROW_RIGHT: board.move(Direction::Right); break;
 		}
 		printBoard(board);
 
@@ -176,7 +176,7 @@ void startOfGame(Board& board) {
 // prints key message to user for board movement and exit game, also prints current status of board solved
 void keyMessage(const Board& board) {
 
-	cout << endl << "| 8 UP | 2 DOWN | 4 LEFT | 6 RIGHT | is board solved ? : ";
+	cout << endl << "| ARROW KEYS TO MOVE | is board solved ? : ";
 
 	if (board.isSolved()) {
 		setTextColor(2);

@@ -30,14 +30,14 @@ This is an ongoing project that I plan to expand from a console-based C++ game i
 
 2. The board scrambles automatically, then gameplay begins.
 
-3. Enter a move using the keypad-style direction codes:
+3. Enter a move using the arrow keys:
 
    | Key | Direction |
    |-----|-----------|
-   | `8` | Up        |
-   | `2` | Down      |
-   | `4` | Left      |
-   | `6` | Right     |
+   | `↑` | Up        |
+   | `↓` | Down      |
+   | `←` | Left      |
+   | `→` | Right     |
    | `0` | Exit game |
 
 4. The direction you enter slides the tile adjacent to the blank space (`*`) in that direction.
