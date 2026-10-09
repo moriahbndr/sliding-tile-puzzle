@@ -10,23 +10,31 @@
 #include <iomanip>
 #include <limits>
 #include <random>
+#include <string>
 
 #include "../engine/Board.h"
+#include "../engine/Player.h"
 #include "Console.h"
 
 using namespace std;
 
 void printBoard(const Board& board);		// prints the board, green tiles are in the correct position, red tiles are not
-void keyMessage(const Board& board);		// printing key message to user along with current board status and exit code
+void keyMessage(const Board& board, const Player& player);	// printing key message to user along with player name, current board status and exit code
 void startOfGame(Board& board);				// prints the solved board, scrambles it, prints it again
-void playGame(Board& board);				// loops until the board is solved, or until the user exits game
+void playGame(Board& board, const Player& player);			// loops until the board is solved, or until the user exits game
 int readBoardSize(const char* side);		// prompts until the user enters a value from 2 - 10
+Player readPlayer();						// prompts until the user enters a valid name
 
 int main() {
 
 	int height = 0;
 	int width = 0;
 	int selection = 0;
+
+	// player enters their name once on start up, nothing is saved after the game closes
+	Player player = readPlayer();
+	clearScreen();
+	cout << endl << "Welcome, " << player.name() << endl;
 
 	// DISPLAYING DEFAULT BOARD CODE
 	Board board;
@@ -50,7 +58,7 @@ int main() {
 
 	// DEFAULT BOARD GAME //
 	if (selection == 1) {
-		playGame(board);
+		playGame(board, player);
 	}
 
 	// CUSTOM BOARD GAME //
@@ -66,7 +74,7 @@ int main() {
 
 		// creating custom board with given values for width and height
 		Board customBoard(width, height);
-		playGame(customBoard);
+		playGame(customBoard, player);
 	}
 
 	setTextColor(7);
@@ -75,6 +83,30 @@ int main() {
 
 	return 0;
 
+}
+
+// ** PLAYER NAME INPUT ** //
+Player readPlayer() {
+
+	string name;
+
+	cout << endl << "Enter your name: ";
+
+	// looping to validate input from user
+	while (true) {
+
+		// input has ended, so there is nobody to ask again
+		if (!getline(cin, name)) {
+			name = "Player";
+			break;
+		}
+		if (Player::isValidName(name)) {
+			break;
+		}
+		cout << "Please enter a name from 1 - " << Player::MAX_NAME_LENGTH << " characters : ";
+	}
+
+	return Player(name);
 }
 
 // ** BOARD SIZE INPUT ** //
@@ -104,7 +136,7 @@ int readBoardSize(const char* side) {
 }
 
 // ** GAME LOOP ** //
-void playGame(Board& board) {
+void playGame(Board& board, const Player& player) {
 
 	int key = 0;
 
@@ -112,7 +144,7 @@ void playGame(Board& board) {
 
 	do {
 		setTextColor(7);
-		keyMessage(board);
+		keyMessage(board, player);
 
 		// movement received by user
 		cout << endl << "Enter movement: ";
@@ -130,7 +162,7 @@ void playGame(Board& board) {
 
 		// messages based on board state
 		if (board.isSolved()) {
-			keyMessage(board);
+			keyMessage(board, player);
 			setTextColor(2);
 			cout << "Board is solved, exiting game" << endl;
 			setTextColor(7);
@@ -173,10 +205,10 @@ void startOfGame(Board& board) {
 }
 
 // ** KEY MESSAGE ** //
-// prints key message to user for board movement and exit game, also prints current status of board solved
-void keyMessage(const Board& board) {
+// prints player name and key message to user for board movement and exit game, also prints current status of board solved
+void keyMessage(const Board& board, const Player& player) {
 
-	cout << endl << "| ARROW KEYS TO MOVE | is board solved ? : ";
+	cout << endl << "Player : " << player.name() << /* random generated emoji/character here*/" | is board solved ? : ";
 
 	if (board.isSolved()) {
 		setTextColor(2);

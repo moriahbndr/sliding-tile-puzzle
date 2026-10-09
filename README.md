@@ -24,13 +24,15 @@ This is an ongoing project that I plan to expand from a console-based C++ game i
 
 ## How to Play
 
-1. On launch, choose:
+1. On launch, enter your name (1–20 characters). No account is created and nothing is saved.
+
+2. Then choose:
    - `1` to play the standard 3x3 board
    - `2` to create a custom board by entering a width and height (2–10)
 
-2. The board scrambles automatically, then gameplay begins.
+3. The board scrambles automatically, then gameplay begins.
 
-3. Enter a move using the arrow keys:
+4. Enter a move using the arrow keys:
 
    | Key | Direction |
    |-----|-----------|
@@ -40,9 +42,9 @@ This is an ongoing project that I plan to expand from a console-based C++ game i
    | `→` | Right     |
    | `0` | Exit game |
 
-4. The direction you enter slides the tile adjacent to the blank space (`*`) in that direction.
+5. The direction you enter slides the tile adjacent to the blank space (`*`) in that direction.
 
-5. Solve the board by arranging all tiles in ascending order, left to right, top to bottom, with the blank space in the bottom-right corner.
+6. Solve the board by arranging all tiles in ascending order, left to right, top to bottom, with the blank space in the bottom-right corner.
 
 ## Project Structure
 
@@ -50,6 +52,8 @@ This is an ongoing project that I plan to expand from a console-based C++ game i
 engine/
   Board.cpp                          # Board class implementation (game engine, no console I/O)
   Board.h                            # Board class declaration
+  Player.cpp                         # Player class implementation (name entered on start up, nothing saved)
+  Player.h                           # Player class declaration
 console/
   SlidingTilePuzzleDriver.cpp        # main() / program entry point, game loop and board printing
   Console.cpp                        # cross-platform console helpers (color, clear, keypress)
