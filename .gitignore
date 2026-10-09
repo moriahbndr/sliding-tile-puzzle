@@ -11,3 +11,6 @@ output/
 # Executables
 puzzle
 outDebug
+
+# macOS
+.DS_Store

@@ -8,7 +8,7 @@ This is an ongoing project that I plan to expand from a console-based C++ game i
 
 ## Features
 
-- Standard 3x3 board, or a custom width/height (1–10) of your choosing
+- Standard 3x3 board, or a custom width/height (2–10) of your choosing
 - Board is randomly scrambled with 15,000 legal moves before each game
 - Color-coded tiles: green when a tile is in its correct position, red when it isn't
 - Live "is board solved?" status after every move
@@ -26,7 +26,7 @@ This is an ongoing project that I plan to expand from a console-based C++ game i
 
 1. On launch, choose:
    - `1` to play the standard 3x3 board
-   - `2` to create a custom board by entering a width and height (1–10)
+   - `2` to create a custom board by entering a width and height (2–10)
 
 2. The board scrambles automatically, then gameplay begins.
 
@@ -47,9 +47,13 @@ This is an ongoing project that I plan to expand from a console-based C++ game i
 ## Project Structure
 
 ```
-SlidingTilePuzzleDriver.cpp          # main() / program entry point and game loop
-SlidingTilePuzzleImplementation.cpp  # SlidingPuzzle class implementation
-SlidingTilePuzzleHeader.h            # SlidingPuzzle class declaration
+engine/
+  Board.cpp                          # Board class implementation (game engine, no console I/O)
+  Board.h                            # Board class declaration
+console/
+  SlidingTilePuzzleDriver.cpp        # main() / program entry point, game loop and board printing
+  Console.cpp                        # cross-platform console helpers (color, clear, keypress)
+  Console.h                          # console helper declarations
 Makefile                             # build via `make` / `make run` / `make clean`
 ```
 

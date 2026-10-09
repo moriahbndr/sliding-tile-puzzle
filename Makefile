@@ -1,8 +1,11 @@
 CXX = g++
 CXXFLAGS = -std=c++17 -Wall
 
-puzzle: SlidingTilePuzzleDriver.cpp SlidingTilePuzzleImplementation.cpp
-	$(CXX) $(CXXFLAGS) SlidingTilePuzzleDriver.cpp SlidingTilePuzzleImplementation.cpp -o puzzle
+SOURCES = console/SlidingTilePuzzleDriver.cpp console/Console.cpp engine/Board.cpp
+HEADERS = console/Console.h engine/Board.h
+
+puzzle: $(SOURCES) $(HEADERS)
+	$(CXX) $(CXXFLAGS) $(SOURCES) -o puzzle
 
 run: puzzle
 	./puzzle
