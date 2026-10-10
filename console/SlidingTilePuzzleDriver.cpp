@@ -13,15 +13,16 @@
 #include <string>
 
 #include "../engine/Board.h"
+#include "../engine/Game.h"
 #include "../engine/Player.h"
 #include "Console.h"
 
 using namespace std;
 
 void printBoard(const Board& board);		// prints the board, green tiles are in the correct position, red tiles are not
-void keyMessage(const Board& board, const Player& player);	// printing key message to user along with player name, current board status and exit code
-void startOfGame(Board& board);				// prints the solved board, scrambles it, prints it again
-void playGame(Board& board, const Player& player);			// loops until the board is solved, or until the user exits game
+void keyMessage(const Game& game, const Player& player);	// printing key message to user along with player name, move count, current board status and exit code
+void startOfGame(const Game& game);			// prints the solved board, the scramble messages, then the scrambled board
+void playGame(int width, int height, const Player& player);	// loops until the board is solved, or until the user exits game
 int readBoardSize(const char* side);		// prompts until the user enters a value from 2 - 10
 Player readPlayer();						// prompts until the user enters a valid name
 
@@ -58,7 +59,7 @@ int main() {
 
 	// DEFAULT BOARD GAME //
 	if (selection == 1) {
-		playGame(board, player);
+		playGame(board.width(), board.height(), player);
 	}
 
 	// CUSTOM BOARD GAME //
@@ -72,9 +73,8 @@ int main() {
 		cout << endl;
 		clearScreen();
 
-		// creating custom board with given values for width and height
-		Board customBoard(width, height);
-		playGame(customBoard, player);
+		// playing on a custom board with given values for width and height
+		playGame(width, height, player);
 	}
 
 	setTextColor(7);
@@ -136,15 +136,19 @@ int readBoardSize(const char* side) {
 }
 
 // ** GAME LOOP ** //
-void playGame(Board& board, const Player& player) {
+void playGame(int width, int height, const Player& player) {
 
 	int key = 0;
+	random_device seedSource;
 
-	startOfGame(board);
+	// creating the game, the board is scrambled and the move count starts at 0
+	Game game(width, height, seedSource());
+
+	startOfGame(game);
 
 	do {
 		setTextColor(7);
-		keyMessage(board, player);
+		keyMessage(game, player);
 
 		// movement received by user
 		cout << endl << "Enter movement: ";
@@ -153,16 +157,16 @@ void playGame(Board& board, const Player& player) {
 		// moving board tiles
 		clearScreen();
 		switch (key) {
-			case KEY_ARROW_UP:    board.move(Direction::Up);    break;
-			case KEY_ARROW_DOWN:  board.move(Direction::Down);  break;
-			case KEY_ARROW_LEFT:  board.move(Direction::Left);  break;
-			case KEY_ARROW_RIGHT: board.move(Direction::Right); break;
+			case KEY_ARROW_UP:    game.move(Direction::Up);    break;
+			case KEY_ARROW_DOWN:  game.move(Direction::Down);  break;
+			case KEY_ARROW_LEFT:  game.move(Direction::Left);  break;
+			case KEY_ARROW_RIGHT: game.move(Direction::Right); break;
 		}
-		printBoard(board);
+		printBoard(game.board());
 
 		// messages based on board state
-		if (board.isSolved()) {
-			keyMessage(board, player);
+		if (game.isSolved()) {
+			keyMessage(game, player);
 			setTextColor(2);
 			cout << "Board is solved, exiting game" << endl;
 			setTextColor(7);
@@ -173,24 +177,17 @@ void playGame(Board& board, const Player& player) {
 			cout << "EXITING GAME" << endl;
 		}
 
-	} while (!board.isSolved() && key != '0');
+	} while (!game.isSolved() && key != '0');
 }
 
 // ** START OF GAME MESSAGE ** //
-void startOfGame(Board& board) {
-
-	random_device seedSource;
+void startOfGame(const Game& game) {
 
 	cout << endl;
 	clearScreen();
 
-	// printing the board
-	printBoard(board);
-
-	// scrambling the board, again if the scramble happens to end on a solved board
-	do {
-		board.scramble(seedSource());
-	} while (board.isSolved());
+	// printing the solved board
+	printBoard(Board(game.board().width(), game.board().height()));
 
 	// Printing the scramble board message to user
 	cout << endl << "scrambling board..." << endl << endl;
@@ -200,17 +197,17 @@ void startOfGame(Board& board) {
 	pauseConsole();
 	clearScreen();
 
-	// printing the board
-	printBoard(board);
+	// printing the scrambled board
+	printBoard(game.board());
 }
 
 // ** KEY MESSAGE ** //
-// prints player name and key message to user for board movement and exit game, also prints current status of board solved
-void keyMessage(const Board& board, const Player& player) {
+// prints player name, move count and key message to user for exit game, also prints current status of board solved
+void keyMessage(const Game& game, const Player& player) {
 
-	cout << endl << "Player : " << player.name() << /* random generated emoji/character here*/" | is board solved ? : ";
+	cout << endl << "Player : " << player.name() << /* random generated emoji/character here*/" | Moves : " << game.moves() << " | is board solved ? : ";
 
-	if (board.isSolved()) {
+	if (game.isSolved()) {
 		setTextColor(2);
 		cout << "YES";
 		setTextColor(7);

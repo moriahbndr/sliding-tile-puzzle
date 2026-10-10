@@ -11,7 +11,7 @@ This is an ongoing project that I plan to expand from a console-based C++ game i
 - Standard 3x3 board, or a custom width/height (2–10) of your choosing
 - Board is randomly scrambled with 15,000 legal moves before each game
 - Color-coded tiles: green when a tile is in its correct position, red when it isn't
-- Live "is board solved?" status after every move
+- Live move count and "is board solved?" status after every move
 - Cross-platform: builds and runs on macOS, Linux, and Windows
 
 ## Requirements
@@ -52,6 +52,8 @@ This is an ongoing project that I plan to expand from a console-based C++ game i
 engine/
   Board.cpp                          # Board class implementation (game engine, no console I/O)
   Board.h                            # Board class declaration
+  Game.cpp                           # Game class implementation (one game : the board plus its move count)
+  Game.h                             # Game class declaration
   Player.cpp                         # Player class implementation (name entered on start up, nothing saved)
   Player.h                           # Player class declaration
 console/
