@@ -11,7 +11,9 @@ This is an ongoing project that I plan to expand from a console-based C++ game i
 - Standard 3x3 board, or a custom width/height (2–10) of your choosing
 - Board is randomly scrambled with 15,000 legal moves before each game
 - Color-coded tiles: green when a tile is in its correct position, red when it isn't
-- Live "is board solved?" status after every move
+- Enter your name on start up, with no account and nothing saved
+- Status bar after every move showing your name, move count, elapsed time and "is board solved?"
+- Final move count and time shown when you solve the board or exit
 - Cross-platform: builds and runs on macOS, Linux, and Windows
 
 ## Requirements
@@ -42,7 +44,7 @@ This is an ongoing project that I plan to expand from a console-based C++ game i
    | `→` | Right     |
    | `0` | Exit game |
 
-5. The direction you enter slides the tile adjacent to the blank space (`*`) in that direction.
+5. Each arrow moves the blank space (`*`) in that direction, swapping it with the tile there. Only moves that slide a tile are counted, and the timer starts when the scrambled board is shown.
 
 6. Solve the board by arranging all tiles in ascending order, left to right, top to bottom, with the blank space in the bottom-right corner.
 
@@ -52,6 +54,8 @@ This is an ongoing project that I plan to expand from a console-based C++ game i
 engine/
   Board.cpp                          # Board class implementation (game engine, no console I/O)
   Board.h                            # Board class declaration
+  Game.cpp                           # Game class implementation (one game : the board plus its move count and timer)
+  Game.h                             # Game class declaration
   Player.cpp                         # Player class implementation (name entered on start up, nothing saved)
   Player.h                           # Player class declaration
 console/
