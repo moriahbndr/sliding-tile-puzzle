@@ -14,6 +14,7 @@ Game::Game(int width, int height, std::uint32_t seed) : board_(width, height) {
 
 	// the scramble moves the board directly, so none of it is counted
 	this->moves_ = 0;
+	this->timerStarted_ = false;
 }
 
 // ** ACCESSORS ** //
@@ -25,6 +26,26 @@ int Game::moves() const {
 	return this->moves_;
 }
 
+// ** ELAPSED TIME ** //
+double Game::elapsedSeconds() const {
+
+	if (!timerStarted_) {
+		return 0;
+	}
+
+	// a solved game is measured up to the solving move, a game in progress is measured up to now
+	std::chrono::steady_clock::time_point end = isSolved() ? endTime_ : std::chrono::steady_clock::now();
+
+	std::chrono::duration<double> elapsed = end - startTime_;
+	return elapsed.count();
+}
+
+// ** STARTING THE TIMER ** //
+void Game::startTimer() {
+	this->startTime_ = std::chrono::steady_clock::now();
+	this->timerStarted_ = true;
+}
+
 // ** MOVING AND COUNTING ** //
 bool Game::move(Direction dir) {
 
@@ -34,6 +55,11 @@ bool Game::move(Direction dir) {
 	}
 
 	moves_++;
+
+	// stopping the clock on the move that solves the board
+	if (board_.isSolved()) {
+		endTime_ = std::chrono::steady_clock::now();
+	}
 	return true;
 }
 
