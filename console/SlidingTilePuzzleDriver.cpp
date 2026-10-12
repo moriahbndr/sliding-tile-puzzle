@@ -172,6 +172,7 @@ void playGame(int width, int height, const Player& player) {
 
 		}
 		if (key == '0') {
+			keyMessage(game, player);
 			setTextColor(7);
 			cout << "EXITING GAME" << endl;
 		}
